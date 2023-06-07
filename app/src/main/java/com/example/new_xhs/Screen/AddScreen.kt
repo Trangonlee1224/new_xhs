@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import com.example.new_xhs.Categories
 import com.example.new_xhs.Request.CreateEssayRequest
@@ -39,11 +40,26 @@ fun AddScreen(allviewmodel:AllViewModel){
 
     var expanded by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.padding(16.dp)) {
+
+    var showDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(pulishResult) {
+        if (pulishResult == true) {
+            showDialog = true
+            // Clear the input fields
+            title.value = ""
+            tags.value = ""
+            content.value = ""
+            abs.value = ""
+        }
+    }
+
+    Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
         TextField(
             value = title.value,
             onValueChange = { title.value = it },
-            label = { Text("标题") }
+            label = { Text("标题") },
+            modifier = Modifier.fillMaxWidth()
         )
 
         Box(modifier = Modifier
@@ -70,20 +86,23 @@ fun AddScreen(allviewmodel:AllViewModel){
         TextField(
             value = abs.value,
             onValueChange = { abs.value = it },
-            label = { Text("摘要") }
+            label = { Text("摘要") },
+            modifier = Modifier.fillMaxWidth()
         )
 
         TextField(
             value = tags.value,
             onValueChange = { tags.value = it },
-            label = { Text("标签") }
+            label = { Text("标签") },
+            modifier = Modifier.fillMaxWidth()
         )
 
-        TextField(
+        OutlinedTextField(
             value = content.value,
             onValueChange = { content.value = it },
             label = { Text("内容") },
-//            modifier = Modifier.fillMaxHeight()
+            shape = RectangleShape,
+            modifier = Modifier.fillMaxWidth()
         )
 
         Button(
@@ -111,6 +130,20 @@ fun AddScreen(allviewmodel:AllViewModel){
         ) {
             Text("发布")
         }
+    }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("发布成功") },
+            text = { Text("您的文章已成功发布") },
+            confirmButton = {
+                Button(
+                    onClick = { showDialog = false },
+                    content = { Text("确定") }
+                )
+            }
+        )
     }
 
 

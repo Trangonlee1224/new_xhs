@@ -1,5 +1,6 @@
 package com.example.new_xhs.Screen
 
+import android.preference.PreferenceScreen
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -95,7 +96,7 @@ fun ArticleItem(essayentity: EssayEntity, ausername: String?, allviewmodel: AllV
 
                 Button(
                     onClick = {
-                              allviewmodel.deleteEssay(detelerequest)
+                        allviewmodel.deleteEssay(detelerequest)
                         allviewmodel.fetchArticles()
                     },
                     modifier = Modifier

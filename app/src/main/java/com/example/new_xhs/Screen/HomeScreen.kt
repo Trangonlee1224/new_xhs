@@ -78,7 +78,7 @@ fun EssayEntityCard(essayEntity: EssayEntity, onClick:() -> Unit, isExpanded: Bo
     // 控制展示具体内容的状态变量
     // 使用Clickable组件处理点击事件
     Card(
-        modifier = Modifier.padding(16.dp).clickable { onClick() },
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp).fillMaxWidth(if (isExpanded) 1f else 0.66f).clickable { onClick() },
         shape = RoundedCornerShape(8.dp),
         elevation = 4.dp
     )
@@ -86,21 +86,24 @@ fun EssayEntityCard(essayEntity: EssayEntity, onClick:() -> Unit, isExpanded: Bo
         Box(
             modifier = Modifier
                 .padding(16.dp)
-                .scale(if (isExpanded) 1.2f else 1.0f) // 根据isExpanded参数应用缩放效果
+                .scale(if (isExpanded) 1.0f else 0.8f) // 根据isExpanded参数应用缩放效果
         ) {
             Column {
                 Text(
                     text = essayEntity.title,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier
+                        .padding(bottom = 8.dp) // Align the text in the center horizontally
+                        .fillMaxWidth()
                 )
 
                 if (isExpanded) {
                     Text(
                         text = essayEntity.content,
                         fontSize = 14.sp,
-                        modifier = Modifier.padding(bottom = 8.dp)
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
                     )
                 }
             }

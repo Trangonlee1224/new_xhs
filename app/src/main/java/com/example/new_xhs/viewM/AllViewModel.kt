@@ -31,6 +31,9 @@ class AllViewModel:ViewModel() {
     private val _loggedIn = MutableLiveData<Boolean>()
     val loggedIn: LiveData<Boolean> = _loggedIn
 
+    private val _register_res = MutableLiveData<Int>()
+    val register_res: LiveData<Int> = _register_res
+
     private val _username = MutableLiveData<String>()
     val Ausername: LiveData<String> = _username
 
@@ -105,8 +108,8 @@ class AllViewModel:ViewModel() {
             override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>){
                 if (response.isSuccessful){
                     val registerResponse = response.body()
-                    val loggedIn = registerResponse?.code == 200
-                    _loggedIn.value = loggedIn
+                    val register_res = registerResponse?.code
+                    _register_res.value = register_res
                 }
                 else{
                     _loggedIn.value = false
