@@ -31,7 +31,7 @@ fun HomeScreen(allviewmodel:AllViewModel) {
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
-            title = { Text(text = "新闻分类") },
+            title = { Text(text = "文章分类") },
             backgroundColor = Color.White,
             elevation = 4.dp
         )
@@ -99,6 +99,12 @@ fun EssayEntityCard(essayEntity: EssayEntity, onClick:() -> Unit, isExpanded: Bo
                 )
 
                 if (isExpanded) {
+                    Text(
+                        text = essayEntity.user.username.toString(),
+                        fontSize = 8.sp,
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                    )
                     Text(
                         text = essayEntity.content,
                         fontSize = 14.sp,

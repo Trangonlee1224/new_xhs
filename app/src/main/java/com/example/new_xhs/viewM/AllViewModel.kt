@@ -24,6 +24,8 @@ class AllViewModel:ViewModel() {
     private val _publishResult = MutableLiveData<Boolean>()
     val publishResult: LiveData<Boolean> = _publishResult
 
+    private val _deleteResult = MutableLiveData<Boolean>()
+    val deleteResult: LiveData<Boolean> = _deleteResult
 
     private val _essayEntities = MutableLiveData<List<EssayEntity>>()
     val essayEntities: LiveData<List<EssayEntity>> get() = _essayEntities
@@ -153,6 +155,7 @@ class AllViewModel:ViewModel() {
                      val deleteresponse = response.body()
                      if(deleteresponse != null){
                          Log.d("DeleteResponse:", deleteresponse.msg)
+                         _deleteResult.value = true
                      }
                      else{
                          Log.d("Error:", "网络请求失败")

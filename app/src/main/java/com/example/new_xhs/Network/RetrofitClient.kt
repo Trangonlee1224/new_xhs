@@ -21,7 +21,7 @@ import okhttp3.logging.HttpLoggingInterceptor.Level
 import retrofit2.Call
 
 object RetrofitClient {
-    private const val BASE_URL = "http://10.63.129.29:8080"
+    private const val BASE_URL = "http://10.62.141.152:8080"
 
     private var retrofit: Retrofit? = null
     private var sessionId: String? = null

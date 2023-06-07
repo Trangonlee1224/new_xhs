@@ -16,7 +16,9 @@ import com.example.new_xhs.Request.LoginRequest
 import com.example.new_xhs.TagEntity
 import com.example.new_xhs.UserEntity
 import com.example.new_xhs.viewM.AllViewModel
-
+import kotlinx.coroutines.delay
+import okhttp3.internal.wait
+import java.lang.Thread.sleep
 
 
 @Composable
@@ -37,24 +39,25 @@ fun AddScreen(allviewmodel:AllViewModel){
     val content = remember { mutableStateOf("") }
     val abs = remember { mutableStateOf("") }
 
-
     var expanded by remember { mutableStateOf(false) }
-
+    var flag by remember{ mutableStateOf(false)}
 
     var showDialog by remember { mutableStateOf(false) }
 
-    LaunchedEffect(pulishResult) {
-        if (pulishResult == true) {
-            showDialog = true
-            // Clear the input fields
-            title.value = ""
-            tags.value = ""
-            content.value = ""
-            abs.value = ""
-        }
-    }
+//    LaunchedEffect(pulishResult) {
+//        if (pulishResult == true) {
+//            showDialog = true
+//            // Clear the input fields
+//            title.value = ""
+//            tags.value = ""
+//            content.value = ""
+//            abs.value = ""
+//        }
+//    }
 
-    Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp)) {
         TextField(
             value = title.value,
             onValueChange = { title.value = it },
@@ -120,6 +123,7 @@ fun AddScreen(allviewmodel:AllViewModel){
                     if (title.value.isNotBlank() && tags.value.isNotBlank() && content.value.isNotBlank()){
 //                        allviewmodel.loginUser(ausername, password)
                         allviewmodel.AddEssay(cRequest)
+                        flag = true
                     }
                     else{
                         /*  这里放警告  */
@@ -130,6 +134,15 @@ fun AddScreen(allviewmodel:AllViewModel){
         ) {
             Text("发布")
         }
+    }
+
+    if (pulishResult==true &&flag == true){
+        flag = false
+        showDialog = true
+        title.value = ""
+        tags.value = ""
+        content.value = ""
+        abs.value = ""
     }
 
     if (showDialog) {

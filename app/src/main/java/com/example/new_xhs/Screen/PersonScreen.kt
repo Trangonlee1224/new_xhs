@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -61,8 +62,12 @@ fun ArticleItem(essayentity: EssayEntity, ausername: String?, allviewmodel: AllV
     val ausername by allviewmodel.Ausername.observeAsState()
     val auserid by allviewmodel.Auserid.observeAsState()
 
+    val deleteresult by allviewmodel.deleteResult.observeAsState()
+
+    var flag by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) } // 控制展开与收起状态的状态变量
 
+    var showDialog by remember { mutableStateOf(false) }
     val passage_id = essayentity.passage_id
     val user = UserEntity(auserid,ausername)
     val content = essayentity.content
@@ -76,6 +81,8 @@ fun ArticleItem(essayentity: EssayEntity, ausername: String?, allviewmodel: AllV
     val cover_photo = essayentity.coverPhoto
     val detelerequest = DeleteEssayRequest(passage_id, user, content, abs, title, published, category, tags, createtime, updatetime, cover_photo)
     Log.d("deleterequest is:", detelerequest.toString())
+
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -98,6 +105,7 @@ fun ArticleItem(essayentity: EssayEntity, ausername: String?, allviewmodel: AllV
                     onClick = {
                         allviewmodel.deleteEssay(detelerequest)
                         allviewmodel.fetchArticles()
+                        flag = true
                     },
                     modifier = Modifier
                         .padding(top = 8.dp)
@@ -110,5 +118,22 @@ fun ArticleItem(essayentity: EssayEntity, ausername: String?, allviewmodel: AllV
                 }
             }
         }
+    }
+    if (deleteresult==true && flag==true){
+        showDialog = true
+        flag = false
+    }
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("删除成功") },
+            text = { Text("您的文章已成功删除，请刷新") },
+            confirmButton = {
+                Button(
+                    onClick = { showDialog = false },
+                    content = { Text("确定") }
+                )
+            }
+        )
     }
 }
